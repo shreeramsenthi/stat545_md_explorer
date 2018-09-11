@@ -1,3 +1,1 @@
-# New Exploration Title
-
-This repo is part of a STAT 545 exercise to explore GitHub and markdown.
+My participation repository for the 2018 Fall Semester STAT545 course at UBC.
