@@ -140,21 +140,31 @@ Let's make _box plots_ of population for each continent. Note: y-axis is much be
 | Grammar Component     | Specification |
 |-----------------------|---------------|
 | __data__              | `gapminder` |
-| __aesthetic mapping__ |  |
-| __geometric object__  |  |
-| scale                 |  |
-| statistical transform |  |
+| __aesthetic mapping__ | `x` and `y` |
+| __geometric object__  | boxplot |
+| scale                 | log-y |
+| statistical transform | 5-number summary |
 
 2. Initiate the `ggplot` call, with the log y scale, and store it in the variable `a`. Print out `a`.
 
-
+```{r}
+a <- ggplot(gapminder, aes(continent, pop)) +
+  scale_y_log10()
+```
 
 3. Add the boxplot geom to `a`.
 
+```{r}
+a + geom_boxplot()
+```
 
 
 4. A violin plot is a kernel density on its side, made symmetric. Add that geom to `a`.
     - What's better here, boxplots or violin plots? Why?
+
+```{r}
+a + geom_violin()
+```
 
 5. Optional: git stage and commit
 
