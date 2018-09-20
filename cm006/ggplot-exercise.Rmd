@@ -5,7 +5,7 @@ output: github_document
 
 In this worksheet, we'll be exploring various plot types (i.e., geometric objects), only using the `x` and `y` aesthetics (and `group`).
 
-1. To get started, load the `tidyverse` and `gapminder` R packages. 
+1. To get started, load the `tidyverse` and `gapminder` R packages.
 ```{r, include = F}
 library(tidyverse)
 library(gapminder)
@@ -14,7 +14,7 @@ library(gapminder)
 
 ## Scatterplot
 
-Let's look at a _scatterplot_ of `gdpPercap` vs. `lifeExp`. 
+Let's look at a _scatterplot_ of `gdpPercap` vs. `lifeExp`.
 
 1. Fill out the grammar components below. Again, bold _must_ be specified to make a `ggplot2` plot.
     - We'll ignore "coordinate system" and "facetting" after this.
@@ -52,13 +52,13 @@ ggplot(gapminder, c(lifeExp, gdpPercap)) +
   geom_point()
 # geom_point: na.rm = FALSE
 # stat_identity: na.rm = FALSE
-# position_identity 
+# position_identity
 
 ```
 
 
 
-5. Put the x-axis on a log scale, first by transforming the x variable. 
+5. Put the x-axis on a log scale, first by transforming the x variable.
     - Note: `ggplot2` does some data wrangling and computations itself! We don't always have to modify the data frame.
 
 ```{r}
@@ -84,7 +84,7 @@ ggplot(gapminder) +
 
 8. Optional: git stage and commit
 
-__Uses of a scatterplot__: 
+__Uses of a scatterplot__:
 
 - Visualize 2-dimensional distributions; dependence.
 - 2 numeric variables
@@ -174,30 +174,44 @@ __Use of boxplot__: Visualize 1-dimensional distributions (of a single numeric v
 
 Let's work up to the concept of a _jitter plot_. As above, let's explore the population for each continent, but using points (again, with the y-axis on a log scale).
 
-Let's hold off on identifying the grammar. 
+Let's hold off on identifying the grammar.
 
 1. Initiate the `ggplot` call to make a scatterplot of `continent` vs `pop`; initiate the log y scale. Store the call in the variable `b`.
 
+```{r}
+b <- a
+```
 
 
 2. Add the point geom to `b`. Why is this an ineffective plot?
 
+```{r}
+a + geom_point()
+```
 
+Can't really see distribution
 
 3. A solution is to jitter the points. Add the jitter geom. Re-run the command a few times -- does the plot change? Why?
 
-
+```{r}
+a + geom_jitter(width = 0.25, alpha = 0.25)
+```
 
 4. How does the grammar differ from a box plot or violin plot?
-    - ANSWER: 
+    - ANSWER:
 
-5. We can add multiple geom _layers_ to our plot. Put a jitterplot overtop of the violin plot, starting with our base `b`. Try vice-versa. 
+5. We can add multiple geom _layers_ to our plot. Put a jitterplot overtop of the violin plot, starting with our base `b`. Try vice-versa.
 
-
+```{r}
+a + geom_violin() +
+  geom_jitter(width = 0.25, alpha = 0.25)
+```
+```
 
 6. Optional: git stage and commit
 
 __Uses of jitterplot__: Visualize 1-dimensional distributions, AND get a sense of the sample size.
+
 
 ## Time/Line Plots
 
@@ -237,7 +251,7 @@ __Uses of time/line plots__: Visualize trends of a numeric variable over time.
 
 Let's see how Rwanda's life expectancy and GDP per capita have evolved over time, using a path plot.
 
-1. Make a scatterplot. Store it in the variable `c`. 
+1. Make a scatterplot. Store it in the variable `c`.
 
 
 
@@ -245,7 +259,7 @@ Let's see how Rwanda's life expectancy and GDP per capita have evolved over time
 
 
 
-3. Add the appropriate geom to `c`. In that geom, specify a property of the geom: `arrow=arrow()`. 
+3. Add the appropriate geom to `c`. In that geom, specify a property of the geom: `arrow=arrow()`.
 
 
 4. Optional: git stage and commit
