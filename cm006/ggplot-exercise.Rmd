@@ -233,15 +233,30 @@ Let's make some time/line plot, starting with Canada's life expectancy over time
     3. Makes the time plot of `lifeExp` over time
     4. Also displays the points
 
-
+```{r}
+gapminder %>%
+  filter(country == 'Canada') %>%
+  ggplot(aes(year, lifeExp)) +
+    geom_line() +
+    geom_point()
+```
 
 3. Attempt to overlay line plots for all countries. That is, repeat the above code, but don't filter. What's wrong here?
 
+```{r}
+gapminder %>%
+  ggplot(aes(year, lifeExp)) +
+    geom_line()
+```
 
 
 4. Use the `group` aesthetic to fix the problem.
 
-
+```{r}
+gapminder %>%
+  ggplot(aes(year, lifeExp)) +
+    geom_line(aes(group = country, alpha = 0.2, colour = continent))
+```
 
 5. Optional: git stage and commit
 
