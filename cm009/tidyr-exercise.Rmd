@@ -12,17 +12,18 @@ suppressPackageStartupMessages(library(tidyverse))
 Make a tibble of letters, their order in the alphabet, and then a pasting of the two columns together.
 
 ```{r}
-a <- tibble(let = letters)
-b <- tibble(ord = 1:26)
-
-c <- bind_cols(a,b)
+tibble(let = letters,
+       ord = 1:26,
+       com = paste0(let,ord))
 ```
 
 Make a tibble of three names and commute times.
 
 ```{r}
-comm <- tibble(names = c("Jane","Alex", "James"),
-                times = c(20,25,45)
+comm <- tribble(~names, ~time,
+                "Jane", 19
+                "Alex", 25
+                "James", 45
                 )
 ```
 
@@ -52,13 +53,12 @@ Read these three LOTR csv's, saving them to `lotr1`, `lotr2`, and `lotr3`:
 - https://github.com/jennybc/lotr-tidy/blob/master/data/The_Return_Of_The_King.csv
 
 ```{r}
-download.file("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv", "lotr1")
+lotr1 <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv")
 
-download.file("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv", "lotr2")
+lotr2 <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv")
 
-download.file("https://github.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv", "lotr3")
+lotr3 <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv")
 
-#Cheating, I know, but it works
 ```
 
 ## `gather()`
@@ -70,24 +70,25 @@ This function is useful for making untidy data tidy (so that computers can more 
 1. Combine the three LOTR untidy tables (`lotr1`, `lotr2`, `lotr3`) to a single untidy table by stacking them.  
 
 ```{r}
-lotr1 <- read_csv("lotr1")
-lotr2 <- read_csv("lotr2")
-lotr3 <- read_csv("lotr3")
-
-temp <- bind_rows(lotr1, lotr2, lotr3)
+lotr_unt <- bind_rows(lotr1, lotr2, lotr3)
 ```
 
 2. Convert to tidy. Also try this by specifying columns as a range, and with the `contains()` function.
 
 ```{r}
-# It already is tidy, no?
+lotr_tid <- lotr_unt %>%
+  gather(key = "Gender", value = "Word", Female:Male)
 ```
 
 3. Try again (bind and tidy the three untidy data frames), but without knowing how many tables there are originally. 
     - The additional work here does not require any additional tools from the tidyverse, but instead uses a `do.call` from base R -- a useful tool in data analysis when the number of "items" is variable/unknown, or quite large. 
 
 ```{r}
-#not seeing it, sorry
+lotrl <- list(lotr1, lotr2, lotr3)
+lotrl
+do.call(bind_rows, lotrl)
+
+#Cool!
 ```
 
 ## `spread()`
@@ -105,13 +106,15 @@ lotr_tidy <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/maste
 Get word counts across "Race". Then try "Gender". 
 
 ```{r}
-
+spread(lotr_tidy, key = "Race", value = "Words")
 ```
 
 Now try combining race and gender. Use `unite()` from `tidyr` instead of `paste()`. 
 
 ```{r}
-
+lotr_tidy %>%
+  unite(Race_Gender, Race, Gender) %>%
+  spread(key = "Race_Gender", value = "Words")
 ```
 
 ## Other `tidyr` goodies
