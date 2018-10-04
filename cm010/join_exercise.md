@@ -227,7 +227,7 @@ colnames(weather)
 
 
 ```r
-flights2 <- flights[1:1000,] %>% 
+flights2 <- flights[1:1000,] %>%
   select(year, tailnum, carrier, time_hour)
 ```
 
@@ -316,7 +316,7 @@ flights2 %>%
 
 ## Types of filtering join
 
-### Let's filter tibbles using two filtering functions: `semi_join`, `anti_join` 
+### Let's filter tibbles using two filtering functions: `semi_join`, `anti_join`
 
 
 ### example for `semi_join`: All rows in `a` that have a match in `b`
@@ -376,7 +376,7 @@ semi_join(a,c)
 
 ## Types of Set Operations for two datasets
 
-### Let's use three `set` functions: `intersect`, `union` and `setdiff` 
+### Let's use three `set` functions: `intersect`, `union` and `setdiff`
 
 ### create two tibbles named `y` and `z`, similar to Data Wrangling Cheatsheet
 
@@ -671,29 +671,44 @@ flights2 %>%
 
 ```
 ## Error in intersect_data_frame(x, y): not compatible: 
-## - Cols in y but not x: `visib`, `pressure`, `wind_gust`, `wind_dir`, `dewp`, `temp`, `hour`, `humid`, `day`, `precip`, `month`, `wind_speed`, `origin`. 
-## - Cols in x but not y: `carrier`, `tailnum`.
+## - Cols in y but not x: `visib`, `pressure`, `wind_gust`, `wind_dir`, `dewp`, `wind_speed`, `hour`, `day`, `precip`, `humid`, `month`, `temp`, `origin`. 
+## - Cols in x but not y: `tailnum`, `carrier`.
 ```
 
 ```r
-row_bind(flights2, weather)
+bind_cols(flights2, weather)
 ```
 
 ```
-## Error in row_bind(flights2, weather): could not find function "row_bind"
+## Error in cbind_all(x): Argument 2 must be length 1000, not 26115
 ```
 
 ```r
-col_bind(flights2, weather)
+bind_rows(flights2, weather)
 ```
 
 ```
-## Error in col_bind(flights2, weather): could not find function "col_bind"
+## # A tibble: 27,115 x 17
+##     year tailnum carrier time_hour           origin month   day  hour  temp
+##    <dbl> <chr>   <chr>   <dttm>              <chr>  <dbl> <int> <int> <dbl>
+##  1  2013 N14228  UA      2013-01-01 05:00:00 <NA>      NA    NA    NA    NA
+##  2  2013 N24211  UA      2013-01-01 05:00:00 <NA>      NA    NA    NA    NA
+##  3  2013 N619AA  AA      2013-01-01 05:00:00 <NA>      NA    NA    NA    NA
+##  4  2013 N804JB  B6      2013-01-01 05:00:00 <NA>      NA    NA    NA    NA
+##  5  2013 N668DN  DL      2013-01-01 06:00:00 <NA>      NA    NA    NA    NA
+##  6  2013 N39463  UA      2013-01-01 05:00:00 <NA>      NA    NA    NA    NA
+##  7  2013 N516JB  B6      2013-01-01 06:00:00 <NA>      NA    NA    NA    NA
+##  8  2013 N829AS  EV      2013-01-01 06:00:00 <NA>      NA    NA    NA    NA
+##  9  2013 N593JB  B6      2013-01-01 06:00:00 <NA>      NA    NA    NA    NA
+## 10  2013 N3ALAA  AA      2013-01-01 06:00:00 <NA>      NA    NA    NA    NA
+## # ... with 27,105 more rows, and 8 more variables: dewp <dbl>,
+## #   humid <dbl>, wind_dir <dbl>, wind_speed <dbl>, wind_gust <dbl>,
+## #   precip <dbl>, pressure <dbl>, visib <dbl>
 ```
 
 No! Columns are not all shared, and rows do not match
 
-### 3. Let's create a tibble `p` with "x1" and "x2" coulmns and have duplicated element in "x1" column. Create another tibble `q` with "x1" and "x3" columns. Then apply `left_join` function `p` to `q` and `q` to `p`. 
+### 3. Let's create a tibble `p` with "x1" and "x2" coulmns and have duplicated element in "x1" column. Create another tibble `q` with "x1" and "x3" columns. Then apply `left_join` function `p` to `q` and `q` to `p`.
 
 
 ```r

@@ -81,7 +81,7 @@ colnames(weather)
 ### 2. Drop unimportant variables so it's easier to understand the join results. Also take first 1000 rows to run it faster.
 
 ```{r}
-flights2 <- flights[1:1000,] %>% 
+flights2 <- flights[1:1000,] %>%
   select(year, tailnum, carrier, time_hour)
 ```
 
@@ -108,7 +108,7 @@ flights2 %>%
 
 ## Types of filtering join
 
-### Let's filter tibbles using two filtering functions: `semi_join`, `anti_join` 
+### Let's filter tibbles using two filtering functions: `semi_join`, `anti_join`
 
 
 ### example for `semi_join`: All rows in `a` that have a match in `b`
@@ -131,7 +131,7 @@ semi_join(a,c)
 
 ## Types of Set Operations for two datasets
 
-### Let's use three `set` functions: `intersect`, `union` and `setdiff` 
+### Let's use three `set` functions: `intersect`, `union` and `setdiff`
 
 ### create two tibbles named `y` and `z`, similar to Data Wrangling Cheatsheet
 
@@ -218,13 +218,13 @@ All flights2 rows have matching rows in weather
 flights2 %>%
   intersect(weather)
 
-row_bind(flights2, weather)
-col_bind(flights2, weather)
+bind_cols(flights2, weather)
+bind_rows(flights2, weather)
 ```
 
 No! Columns are not all shared, and rows do not match
 
-### 3. Let's create a tibble `p` with "x1" and "x2" coulmns and have duplicated element in "x1" column. Create another tibble `q` with "x1" and "x3" columns. Then apply `left_join` function `p` to `q` and `q` to `p`. 
+### 3. Let's create a tibble `p` with "x1" and "x2" coulmns and have duplicated element in "x1" column. Create another tibble `q` with "x1" and "x3" columns. Then apply `left_join` function `p` to `q` and `q` to `p`.
 
 ```{r}
 p <- tribble(~x1, ~x2,
