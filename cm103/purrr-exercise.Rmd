@@ -1,8 +1,6 @@
 ---
 title: "cm103 Worksheet"
-output: html_notebook
-editor_options: 
-  chunk_output_type: inline
+output: github_document
 ---
 
 ```{r}
@@ -26,7 +24,7 @@ In addition:
 
 ## Review Vectors and Lists
 
-Vectors: 
+Vectors:
 
 - hold multiple entries of the same type.
 - coerced to the least-informative data type in the vector.
@@ -36,7 +34,7 @@ Lists:
 
 - hold multiple entries of anything.
 - no entries are coerced (as a result of being able to hold anything)
-- subset with `[`, `[[`, or `$`. 
+- subset with `[`, `[[`, or
 
 ## Review Vectorization
 
@@ -55,22 +53,26 @@ Examples:
 ```{r}
 commute <- c(40, 20, 35, 15)
 person <- c("Parveen", "Leo", "Shawn", "Emmotions")
-str_c(person, " takes ", commute, " minutes to commute to work.")
+paste0(person, " takes ", commute, " minutes to commute to work.") ==  str_c(person, " takes ", commute, " minutes to commute to work.")
 ```
 
 ## `purrr`
 
-`purrr` is great when vectorization does not apply! 
+`purrr` is great when vectorization does not apply!
 
-Particularly useful if your data is in JSON format. 
+Particularly useful if your data is in JSON format.
 
-Example: 
+Example:
 
-1. Explore the `wesanderson` list (comes with `repurrrsive` package). Hint: `str()` might help. It's a list of vectors. 
+1. Explore the `wesanderson` list (comes with `repurrrsive` package). Hint: `str()` might help. It's a list of vectors.
 2. Use what you know about R to write code that extracts a vector of the first elements of each vector contained in `wesanderson`.
 
 ```{r}
-YOUR_CODE_HERE
+x <- character(0)
+
+for(i in 1:length(wesanderson)) x <- c(x, wesanderson[[i]][1])
+
+x
 ```
 
 `str()` is not always useful! Try checking the structure of `got_chars` (= Game of Thrones characters):
@@ -85,7 +87,8 @@ str(got_chars)
 1. `str()`: embrace `list.len` and `max.level`
 
 ```{r}
-str(got_chars)
+str(got_chars, list.len=4, max.level = 2)
+str(got_chars[[1]])
 ```
 
 2. Interactive exploration: `View()` and `listviewer::jsonedit(..., mode = "view")`
@@ -118,13 +121,14 @@ Toy example 1: without using vectorization, take the square root of the followin
 
 ```{r}
 x <- 1:10
-map(FILL_THIS_IN, FILL_THIS_IN)
+sqrt(x)
+map(x, sqrt)
 ```
 
 Toy example 2 (functions on-the-fly): without using vectorization, square each component of `x`:
 
 ```{r}
-map(FILL_THIS_IN, FILL_THIS_IN)
+map(x, function(x) x^2)
 ```
 
 Want a vector to be returned? Must specify the `typeof()` of the vector. Use `map_dbl()` to specify an output vector of type "double" for the above (check out the documentation `?map` for the acceptable vector types):
@@ -147,7 +151,9 @@ map_chr(x, str_c, "potato.", sep="-")
     - Use the ` ``[`` ` function if you're feeling daring.
 
 ```{r}
-YOUR_CODE_HERE
+map_chr(wesanderson, function(x) x[1])
+map_chr(wesanderson, head, 1)
+map_chr(wesanderson, `[`, 1)
 ```
 
 2. Check that each character's list entry in `got_chars` has the same names as everyone else (that is, list component names, not character names). Here's one way to do it:
@@ -156,7 +162,6 @@ YOUR_CODE_HERE
     3. Then, apply the `table()` function.
 
 ```{r}
-YOUR_CODE_HERE
 ```
 
 
@@ -168,7 +173,7 @@ We can do the subsetting much easier with these shortcuts: just replace function
 - name you'd like to subset by.
 
 ```{r}
-map_chr(wesanderson, 1) # %>% unname()
+map_chr(wesanderson, 1)  %>% unname()
 ```
 
 
@@ -176,14 +181,17 @@ map_chr(wesanderson, 1) # %>% unname()
 
 1. For the `got_chars` data:
 
-- What are the titles of each character? 
+- What are the titles of each character?
 - Is a vector output appropriate here?
 - Use a pipe.
 
 Note: each character's list entry has a component named `titles` as the 9th entry.
 
 ```{r}
-YOUR_CODE_HERE
+map(got_chars, "titles")
+
+got_chars %>%
+  map("titles")
 ```
 
 2. For the `got_chars` data:
@@ -194,6 +202,8 @@ YOUR_CODE_HERE
 
 ```{r}
 desired_info <- c("name", "born")
+map(got_chars, `[`, desired_info) %>% head
+map_dfr(got_chars, `[`, desired_info)
 ```
 
 Note: as Jenny says, it's always safer (from a programming perspective) to work with output that's more predictable. The following would be safer, and is still readable:
