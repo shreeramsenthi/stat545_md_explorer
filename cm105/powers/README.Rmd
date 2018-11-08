@@ -1,0 +1,27 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+library(powers)
+```
+
+# powers
+
+The goal of powers is to take powers of numbers.
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+square(2)
+cube(3)
+```
